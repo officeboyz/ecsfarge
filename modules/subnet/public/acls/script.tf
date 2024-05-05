@@ -77,7 +77,7 @@ module "load_balancer_exception" {
   }]
   ipv4 = true
   ipv6 = true
-  initial_offset = pow(2,9)
+  initial_offset = pow(2,6)
 }
 
 module "inter-subnet-comms" {

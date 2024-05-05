@@ -27,6 +27,16 @@ resource "aws_security_group_rule" "ecs_task_egress_hack" {
   security_group_id = var.ecs_task_sg_id
   cidr_blocks = ["0.0.0.0/0"]
 }
+resource "aws_security_group_rule" "ecs_task_egress_hack2" {
+  description = "Allow ECS task traffic to head towards anything because aws is behind the curve on ipv6 s3 gateways HTTPS"
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  security_group_id = var.ecs_task_sg_id
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
 # Bastion rules
 resource "aws_security_group_rule" "bastion_ingress" {
   description = "SSH from anywhere"
