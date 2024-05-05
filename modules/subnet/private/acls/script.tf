@@ -81,4 +81,5 @@ resource "aws_network_acl_rule" "allow_all_inbound_443_ipv6" {
   from_port      = 443
   to_port        = 443
   network_acl_id = var.nacl_id
+  
 }
