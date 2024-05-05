@@ -27,6 +27,10 @@ locals {
       protocol    = "tcp"
       port_number = 443
     },
+    { # https
+      protocol    = "tcp"
+      port_number = 22
+    },
   ]
 }
 resource "aws_network_acl" "public_subnet_acl" {
@@ -47,7 +51,7 @@ module "bastion_ssh_exception" {
   nacl_id = aws_network_acl.public_subnet_acl.id
   protocol_port_pairs = [{
     protocol = "tcp"
-    port_number = 22
+    port_number = 65022
   }]
   ipv4 = true
   ipv6 = true
