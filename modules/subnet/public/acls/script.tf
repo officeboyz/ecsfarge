@@ -27,11 +27,16 @@ locals {
       protocol    = "tcp"
       port_number = 443
     },
-    { # https
+    { # ssh
       protocol    = "tcp"
       port_number = 22
     },
-  ]
+    { # dns
+      protocol    = "udp"
+      port_number = 53
+    }  
+    
+    ]  
 }
 resource "aws_network_acl" "public_subnet_acl" {
   vpc_id = var.vpc_id
@@ -44,19 +49,20 @@ resource "aws_network_acl" "public_subnet_acl" {
 
 module "bastion_ssh_exception" {
   source = "../../rules/cartesian_rule_builder"
-  cidrs  = [{
+  cidrs  = [{ 
     ipv4_cidr = "0.0.0.0/0"
     ipv6_cidr = "::/0"
   }]
   nacl_id = aws_network_acl.public_subnet_acl.id
   protocol_port_pairs = [{
     protocol = "tcp"
-    port_number = 65022
+    port_number = 22
   }]
   ipv4 = true
   ipv6 = true
   initial_offset = pow(2,8)
 }
+
 
 module "load_balancer_exception" {
   source = "../../rules/cartesian_rule_builder"
@@ -66,7 +72,7 @@ module "load_balancer_exception" {
   }]
   nacl_id = aws_network_acl.public_subnet_acl.id
   protocol_port_pairs = [{
-    protocol    = "tcp"
+    protocol   = "tcp"
     port_number = 443
   }]
   ipv4 = true

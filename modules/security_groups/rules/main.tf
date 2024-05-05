@@ -48,6 +48,25 @@ resource "aws_security_group_rule" "bastion_ingress_ipv6" {
   ipv6_cidr_blocks = ["::/0"]
 }
 
+resource "aws_security_group_rule" "bastion_ingress_icmp" {
+  description = "Allow icmp from anywhere"
+  type = "ingress"
+  from_port   = -1
+  to_port     = -1
+  protocol    = "icmp"
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = var.bastion_sg_id
+}
+
+resource "aws_security_group_rule" "bastion_ingress_ipv6_icmp" {
+  description = "SSH from anywhere"
+  type = "ingress"
+  from_port   = -1
+  to_port     = -1
+  protocol    = "icmp"
+  security_group_id = var.bastion_sg_id
+  ipv6_cidr_blocks = ["::/0"]
+}
 resource "aws_security_group_rule" "bastion_ipv4_egress" {
   description = "Allow all outbound ipv4 traffic"
   type = "egress"

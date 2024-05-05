@@ -28,7 +28,7 @@ variable "ipv4" { type = bool}
 variable "ipv6" { type = bool}
 variable "initial_offset" {
   type = number
-  default = 0
+  default = 100
 }
 module "entropy_calculator" {
   source = "./entropy_calculator"
